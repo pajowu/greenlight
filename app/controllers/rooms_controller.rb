@@ -163,7 +163,7 @@ class RoomsController < ApplicationController
     room_settings = JSON.parse(@room[:room_settings])
     opts[:mute_on_start] = room_settings["muteOnStart"]
     opts[:require_moderator_approval] = room_settings["requireModeratorApproval"]
-
+    opts[:record] = room_settings["recording"]
     begin
       redirect_to join_path(@room, current_user.name, opts, current_user.uid)
     rescue BigBlueButton::BigBlueButtonException => e
@@ -283,6 +283,7 @@ class RoomsController < ApplicationController
       "requireModeratorApproval": options[:require_moderator_approval] == "1",
       "anyoneCanStart": options[:anyone_can_start] == "1",
       "joinModerator": options[:all_join_moderator] == "1",
+      "recording": options[:recording] == "1",
     }
 
     room_settings.to_json
