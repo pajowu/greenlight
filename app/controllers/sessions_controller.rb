@@ -149,6 +149,7 @@ class SessionsController < ApplicationController
     return redirect_to(ldap_signin_path, alert: I18n.t("invalid_credentials")) unless result
 
     @auth = parse_auth(result.first, ENV['LDAP_ROLE_FIELD'])
+    logger.info("Got LDAP data #{@auth.inspect}")
 
     begin
       process_signin
