@@ -85,12 +85,18 @@ class Room < ApplicationRecord
     JSON.parse(room_settings) if room_settings
   end
 
+  def voice_bridge_nr
+    return voice_bridge if voice_bridge
+    self.voice_bridge = unique_voicebridge
+  end
+
   private
 
   # Generates a uid for the room and BigBlueButton.
   def setup
     self.uid = random_room_uid
     self.bbb_id = unique_bbb_id
+    self.voice_bridge = unique_voicebridge
     self.moderator_pw = RandomPassword.generate(length: 12)
     self.attendee_pw = RandomPassword.generate(length: 12)
   end
@@ -111,6 +117,14 @@ class Room < ApplicationRecord
     loop do
       bbb_id = SecureRandom.hex(20)
       break bbb_id unless Room.exists?(bbb_id: bbb_id)
+    end
+  end
+
+  # Generates a unique voiceBridge number
+  def unique_voicebridge
+    loop do
+      voicebridge = rand(10000..99999).to_s
+      break voicebridge unless Room.exists?(voice_bridge: voicebridge)
     end
   end
 end

@@ -76,6 +76,8 @@ module BbbServer
 
     create_options[:guestPolicy] = "ASK_MODERATOR" if options[:require_moderator_approval]
 
+    create_options[:voiceBridge] = options[:voice_bridge]
+
     # Send the create request.
     begin
       meeting = bbb_server.create_meeting(room.name, room.bbb_id, create_options)
