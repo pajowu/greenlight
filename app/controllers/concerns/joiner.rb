@@ -57,6 +57,7 @@ module Joiner
 
       opts[:require_moderator_approval] = room_settings["requireModeratorApproval"]
       opts[:mute_on_start] = room_settings["muteOnStart"]
+      opts[:voice_bridge] = @room.voice_bridge_nr
 
       if current_user
         redirect_to join_path(@room, current_user.name, opts, current_user.uid)
